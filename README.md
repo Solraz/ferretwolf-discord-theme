@@ -1,2 +1,2 @@
-# ferretwolf-discord-theme
+# Ferretwolf Discord Theme
 TODO__ Description
