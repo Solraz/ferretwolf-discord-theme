@@ -1,0 +1,232 @@
+@use "sass:map";
+@use "mixins/theme";
+@use "mixins/functions";
+@use "mixins/icons";
+
+/*
+* Google Material Symbols for new Icons
+*/
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+.material-symbols-outlined {
+	font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+/*
+* Top bar elements
+* withFrame__485f4 -> Topbar container
+* class^="wordmarkWindows" -> Corner title
+*/
+%top_bar {
+	height: unset;
+	flex-flow: row-reverse;
+
+	> [role="button"] {
+		padding: map.get(theme.$spacings, xs) 0;
+		top: 0;
+	}
+
+	[class^="wordmarkWindows"] {
+		margin-right: auto;
+		order: 4;
+		position: relative;
+		padding: map.get(theme.$spacings, xs) map.get(theme.$spacings, l);
+
+		> svg {
+			display: none;
+		}
+
+		&::after {
+			content: icons.$corner-text;
+
+			display: flex;
+			position: relative;
+
+			height: 16px;
+			line-height: 16px;
+
+			// font-family: var(--font);
+			font-size: map.get(theme.$sizes, fonts, title);
+			font-weight: 900;
+			// color: var(--text-5);
+
+			transform: scaleX(1.2);
+			margin-left: 6px;
+		}
+	}
+}
+
+[class^="typeWindows"][class*="withFrame"][class*="titleBar"] {
+	@extend %top_bar;
+}
+
+/*
+* Badges on Server List
+* 
+* wrapper_3af0b -> Badges
+* upperBadge_c7cfb3 -> Connected to voice badge
+* svg_ad7356 -> Background to badge (why the fuck did they do it this way, the actual fuck? What a nightmare of a junior HTML, shit probably is responsible for at least  10 hours of extra work because of how bad it is to tweak.)
+*/
+%upper_badge {
+	top: unset;
+	bottom: 0;
+}
+%upper_badge_background {
+	defs {
+		rect:nth-of-type(1) {
+			transform: translateY(65%);
+		}
+	}
+}
+
+.wrapper__3af0b {
+	> .upperBadge_c7cfb3 {
+		@extend %upper_badge;
+	}
+
+	> .svg_ad7356 {
+		@extend %upper_badge_background;
+	}
+}
+
+/*
+* Server List changes
+* wrapper_a7e7a8 -> Container for Left Sidebar
+* scroller__3d071 -> Inner Container for Left Sidebar
+* aria-label="Servers" -> Container for Servers (seriously why the fuck doesn't it have a class or id or attribute to identify it)
+*/
+%sidebar {
+	padding-top: unset;
+	padding: map.get(theme.$spacings, l) 0;
+	display: flex;
+	flex-flow: column;
+	justify-content: space-between;
+}
+%servers {
+	padding: map.get(theme.$spacings, l);
+	min-height: 70%;
+
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.wrapper_a7e7a8 {
+	.scroller__3d071 {
+		@extend %sidebar;
+
+		[aria-label="Servers"] {
+			@extend %servers;
+		}
+	}
+}
+
+/*
+* Content Changes
+* base__3e6af -> Content container
+*
+* content__4bf10 -> Content inner container
+* sidebar_ded4b5 -> Left side
+*
+* title_b7d661 -> Chat top
+*
+* content__1a4fe -> Chat container
+* container__93316 -> Chat content
+* container_b2ce9c -> Chat sidebar
+*
+* tabBody_b3d268 -> Friend list container
+*/
+%sidebar_guilds {
+	margin: map.get(theme.$spacings, l) map.get(theme.$spacings, s) 0 0;
+	padding: unset;
+
+	height: calc(100% - 30px);
+	border-radius: map.get(theme.$roundings, l);
+}
+%chat {
+	height: calc(100% - 30px);
+
+	margin: map.get(theme.$spacings, l) map.get(theme.$spacings, l) 0 0;
+
+	border-radius: map.get(theme.$roundings, m);
+
+	background-color: transparent;
+
+	> .title_b7d661.container__11d72 {
+		background: none;
+
+		> .upperContainer__993ba {
+			> .children__32014 {
+				&::after {
+					display: none;
+				}
+			}
+
+			> .toolbar__88c63 {
+				> div:nth-child(1) {
+				}
+
+				> .search__07df0 {
+					margin-left: 7.5vw;
+
+					.searchBar_e0c60b {
+						width: 240px;
+					}
+				}
+			}
+		}
+	}
+	> .content__1a4fe {
+		> .container__93316 {
+			margin: map.get(theme.$spacings, s) map.get(theme.$spacings, xl) 0 0;
+			background: transparent;
+
+			> .chatContainer__23434 {
+				> .chatContent__5dca8 {
+					border-radius: map.get(theme.$roundings, m);
+					padding: map.get(theme.$spacings, s) 0;
+				}
+			}
+		}
+
+		> .profilePanel__12596 {
+			margin: map.get(theme.$spacings, s) 0 0 0;
+		}
+
+		> .container_b2ce9c {
+			margin: map.get(theme.$spacings, s) 0 0 0;
+		}
+	}
+}
+%friendlist {
+	height: calc(100% - 30px);
+
+	margin: map.get(theme.$spacings, l) map.get(theme.$spacings, l) 0 0;
+
+	border-radius: map.get(theme.$roundings, m);
+
+	background-color: transparent;
+
+	> .container__5c7e7 {
+		> .tabBody_b3d268 {
+			margin: map.get(theme.$spacings, s) map.get(theme.$spacings, l) 0 0;
+			background: transparent;
+		}
+	}
+}
+
+.base__3e6af {
+	> .content__4bf10 {
+		> .sidebar_ded4b5 {
+			@extend %sidebar_guilds;
+		}
+
+		> .chat__52833 {
+			@extend %chat;
+		}
+
+		> .container__5c7e7 {
+			@extend %friendlist;
+		}
+	}
+}
